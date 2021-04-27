@@ -4,25 +4,26 @@ import * as utils from '../utils'
 
 test('returns winner', () => {
   const originalGetWinner = utils.getWinner
-  // change the getWinner implementation to a function
-  // that keeps track of how often it's called and
-  // the arguments it's called with (Hint #1)
-  utils.getWinner = (p1, p2) => p2
+
+  utils.getWinner = (...args) => {
+		utils.getWinner.mock.calls.push(...args)
+		return args[1]
+	}
+
+	// this is to make sure the function runs with same number of 
+	// arguments each time and the right ones are tested
+	utils.getWinner.mock = { calls: []}
 
   const winner = thumbWar('Ken Wheeler', 'Kent C. Dodds')
   expect(winner).toBe('Kent C. Dodds')
-  // add an assertion for how many times the getWinner function
-  // was supposed to be called (2 times) (Hint #2)
-  //
-  // add another assertion that every time it was called
-  // it was called with the right arguments: 'Ken Wheeler', 'Kent C. Dodds'
-  // (Hint #3)
+	console.log(utils.getWinner.mock.calls) // eslint-disable-line
+	expect(utils.getWinner.mock.calls).toEqual([
+		['noob1234', 'pro999'],
+		['noob1234', 'pro999']
+	])
 
   utils.getWinner = originalGetWinner
 })
-
-/*
-Hints below:
 
 
 

@@ -1,32 +1,19 @@
 // monkey-patching
 import thumbWar from '../thumb-war'
+import * as utils from '../utils'
 // import the utils module (see hint #1 at the bottom of the file)
 
 test('returns winner', () => {
-  // keep track of the original `getWinner` utility function (see hint #2)
-  // overwrite the utils.getWinner function with
-  // our own that always returns the second player (see hint #3)
+	const originalGetWinner = utils.getWinner
+	utils.getWinner = (p1, p2) => p2
 
   const winner = thumbWar('Ken Wheeler', 'Kent C. Dodds')
-  // change this assertion to be more for a specific player
-  // (like 'Kent C. Dodds', see hint #4):
-  expect(['Ken Wheeler', 'Kent C. Dodds'].includes(winner)).toBe(true)
 
-  // restore the originalGetWinner function so other tests don't break
-  // (see hint #5)
+  expect(winner).toBe('Kent C. Dodds')
+
+	// so that other tests using this utility don't blow up
+	utils.getWinner = originalGetWinner
 })
-
-/*
-
-Hints below:
-
-
-
-
-
-
-See answers in the solution file
-
 
 
 
